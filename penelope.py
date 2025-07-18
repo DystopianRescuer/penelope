@@ -4980,6 +4980,7 @@ def main():
 	misc.add_argument("-S", "--single-session", help="Accommodate only the first created session", action="store_true")
 	misc.add_argument("-C", "--no-attach", help="Disable auto attaching sessions upon creation", action="store_true")
 	misc.add_argument("-U", "--no-upgrade", help="Do not upgrade shells", action="store_true")
+	misc.add_argument("-R", "--no-check-root", help="Do not check if running as root", action="store_true")
 
 	misc = parser.add_argument_group("File server")
 	misc.add_argument("-s", "--serve", help="HTTP File Server mode", action="store_true")
@@ -4993,6 +4994,11 @@ def main():
 	debug.add_argument("-cu", "--check-urls", help="Check health of hardcoded URLs", action="store_true")
 
 	parser.parse_args(None, options)
+
+	# Check if running as root
+	if not options.no_check_root and os.geteuid() == 0:
+		logger.critical("(!) Running as root is not recommended, if wanna proceed use --no-check-root flag (!)")
+		sys.exit(1)
 
 	# Modify objects for testing
 	if options.dev_mode:
