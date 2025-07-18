@@ -5162,5 +5162,8 @@ if not fonts_installed():
 # Load peneloperc
 load_rc()
 
+# Load modules
+load_modules()
+
 if __name__ == "__main__":
 	main()
