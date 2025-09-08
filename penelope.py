@@ -5084,11 +5084,8 @@ def main():
 	sounds_compatible = False
 	if options.use_sounds:
 		# Check if sounds available
-		if platform.system().lower() == "linux" and shutil.which("paplay") is not None:
+		if not platform.system().lower() == "linux" or shutil.which("paplay") is None:
 			# Its linux and there is paplay command
-			sounds_compatible = True
-
-		if not sounds_compatible:
 			options.use_sounds = False
 			print("Can't use sounds, make sure you have pulseaudio-utils installed (just linux for now)")
 
