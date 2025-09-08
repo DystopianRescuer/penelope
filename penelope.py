@@ -1970,6 +1970,7 @@ class Session:
 				self.ip = _socket.getpeername()[0]
 			except:
 				logger.error(f"Invalid connection from {self.target} 🙄")
+				play_sound('failure')
 				return
 			self._host, self._port = self.socket.getsockname()
 			self.listener = listener
@@ -2067,7 +2068,7 @@ class Session:
 				if self.name == core.session_wait_host:
 					core.session_wait.put(self.id)
 
-				play_sound(SOUNDS['success'])
+				play_sound('success')
 
 				logger.info(
 					f"Got {self.source} shell from "
@@ -3946,6 +3947,7 @@ class Session:
 
 		if not self.OS:
 			message = f"Invalid shell from {self.ip} 🙄"
+			play_sound('failure')
 		else:
 			message = f"Session [{self.id}] died..."
 			core.hosts[self.name].remove(self)
